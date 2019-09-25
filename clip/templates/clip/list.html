@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %} - List{% endblock %}
+
+{% block content %}
+{% load post_extras %}  <!-- custom filter 추가 -->
+{% load staticfiles %}
+
+    <div class="container">
+        {% for post in clips %}
+        <div class ="row">
+            
+           <div class="col-lg-6 panel panel-default">
+                <p>
+                    <embed src="https://clips.twitch.tv/embed?clip={{post.clipID}}&amp;autoplay=false"
+                           width="400" height="295"
+                           frameborder="0" preload="metadata" scrolling="no" allowfullscreen="true">
+                    </embed>
+                </p>
+<!--           <form method="GET" type="button" class="btn btn-primary" id="iframe">iframe</form>
+               <form method="GET" type="button" class="btn btn-primary" id="copyurl"> Copy</form>-->
+                <p>{{post.text|linebreaksbr}}</p>
+                <p class="text-right">
+                     <a href="{% url 'clip:clip_detail' pk=post.id %}" class="btn btn-xs btn-success">상세보기</a>
+                </p>
+            </div>
+            
+             <div class="col-lg-3"><!--앞으로 해쉬태그가 들어갈 공간 -->
+                 <p>{{post.title}}</p>
+                 <p>{{post|add_link|safe}}</p>
+             </div>
+            <div class="col-lg-2"></div>
+        </div>
+
+        {% endfor %}
+        {% if clips.has_previous %}
+        <a href="?page=1"> 맨 앞으로 </a>
+        <a href="?page={{ clips.previous_page_number }}"> 이전 </a>
+        {% endif %}
+        <span>{{ clips.number }}</span>
+        <span>/</span>
+        <span>{{ clips.paginator.num_pages }}</span>
+        {% if clips.has_next %}
+        <a href="?page={{ clips.next_page_number }}"> 다음 </a>
+        <a href="?page={{ clips.paginator.num_pages }}"> 맨 뒤로 </a>
+        {% endif %}
+    </div>
+    
+{% endblock %}

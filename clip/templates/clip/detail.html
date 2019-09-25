@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+{% load post_extras %}
+    <div class="row">
+            <div class="col-lg-8 panel panel-default">
+                <p>
+                    <embed src="https://clips.twitch.tv/embed?clip={{clip.clipID}}&amp;autoplay=false"
+                            width="640" height="360"
+                           frameborder="0" preload="metadata" scrolling="no" allowfullscreen="true">
+                    </embed>
+                </p>
+                <p>{{clip.text|linebreaksbr}}</p>
+                <p>제목 : {{clip.title}}</p>
+                <p>스트리머 : {{clip.streamer}}</p>
+                <p>{{clip|add_link|safe}}</p>
+                <a href="{% url 'clip:clip_update' pk=clip.id %}" class="btn btn-outline-success btn-lg float-right">이거 이렇게 올리는거 아닌데</a>
+            </div>
+            <div class="col-md-2"></div>
+    </div>
+
+    <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8 panel panel-default">
+
+            </div>
+            <div class="col-md-2"></div>
+    </div>
+{% endblock %}
